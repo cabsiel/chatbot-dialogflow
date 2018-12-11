@@ -1,0 +1,60 @@
+<ion-header hidden>
+  <ion-navbar>
+    <ion-title>
+      ChatBot
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-fab bottom right>
+    <button ion-fab color="danger" (click)="sendVoice()">
+      <ion-icon name="mic"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-list no-lines class="chat-list">
+    <ion-item *ngFor="let message of messages" class="chat-item" text-wrap>
+        <ion-avatar item-left *ngIf="message.sender == 'api'">
+          <img src="assets/imgs/eca.png">
+        </ion-avatar>
+        <ion-avatar item-right *ngIf="message.sender == 'me'">
+            <img src="assets/imgs/ionic.png">
+        </ion-avatar>
+        <div *ngIf="message.sender == 'api'" class="bubble me">
+          <div *ngIf="message.type == 'IMG'">
+            <a href="{{message.value}}" target= "_blank">
+              <ion-img style="width: 80px; height: 40px;" src="{{message.value}}">
+              </ion-img>
+            </a>
+          </div>
+          <div *ngIf="message.type == 'PDF'">
+            <a href="{{message.value}}" target= "_blank">
+                <ion-img src="https://www.idnow.de/assets/img/developers/icon_pdf.png"> 
+                </ion-img>
+                <span style="font-size: 14px;">{{message.name}}</span>    
+            </a>
+          </div>
+          <div *ngIf="message.type == 'TEXT'">
+            <h3> {{ message.value }} </h3>
+            
+          </div>
+        </div>
+        <div *ngIf="message.sender == 'me'" class="bubble you">
+            <h3> {{ message.value }} </h3>
+          </div>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item>
+      <ion-input #input type="text" placeholder="Entra tu mensaje.." [(ngModel)]="value"></ion-input>
+      <button ion-button icon-only item-right clear (click)="sendText(); input.setFocus()">
+        <ion-icon name="send"></ion-icon>
+      </button>
+  </ion-item>
+  </ion-toolbar>
+</ion-footer>
